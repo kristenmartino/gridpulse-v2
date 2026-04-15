@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GridPulse — Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/platform.css">
+</head>
+<body>
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__brand">
+      <span class="sidebar__logo">GP</span>
+      <span class="sidebar__name">Grid<span class="sidebar__name-alt">Pulse</span></span>
+    </div>
+
+    <nav class="sidebar__nav">
+      <button class="sidebar__link sidebar__link--active" data-tab="overview" data-persona="ops renewables trader data">
+        <svg class="sidebar__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/>
+          <rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/>
+        </svg>
+        <span>Overview</span>
+      </button>
+      <button class="sidebar__link" data-tab="forecast" data-persona="ops trader data">
+        <svg class="sidebar__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <polyline points="2,16 6,10 10,13 14,5 18,8"/>
+        </svg>
+        <span>Forecast</span>
+      </button>
+      <button class="sidebar__link" data-tab="risk" data-persona="ops trader">
+        <svg class="sidebar__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <polygon points="10,2 18,18 2,18"/>
+          <line x1="10" y1="8" x2="10" y2="12"/><circle cx="10" cy="15" r="0.8" fill="currentColor"/>
+        </svg>
+        <span>Risk</span>
+      </button>
+      <button class="sidebar__link" data-tab="grid" data-persona="ops renewables">
+        <svg class="sidebar__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="10" cy="10" r="7"/>
+          <path d="M10,3 L10,10 L15,13"/>
+        </svg>
+        <span>Grid</span>
+      </button>
+      <button class="sidebar__link" data-tab="scenarios" data-persona="ops renewables trader data">
+        <svg class="sidebar__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="2" y="2" width="16" height="16" rx="1"/>
+          <line x1="2" y1="10" x2="18" y2="10"/>
+          <line x1="10" y1="2" x2="10" y2="18"/>
+        </svg>
+        <span>Scenarios</span>
+      </button>
+      <button class="sidebar__link" data-tab="models" data-persona="ops data">
+        <svg class="sidebar__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="7" cy="14" r="4"/><circle cx="14" cy="7" r="4"/>
+          <line x1="10" y1="11" x2="11" y2="10"/>
+        </svg>
+        <span>Models</span>
+      </button>
+      <button class="sidebar__link" data-tab="briefings" data-persona="ops renewables trader data">
+        <svg class="sidebar__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="4" y="2" width="12" height="16" rx="1"/>
+          <line x1="7" y1="6" x2="13" y2="6"/><line x1="7" y1="9" x2="13" y2="9"/>
+          <line x1="7" y1="12" x2="11" y2="12"/>
+        </svg>
+        <span>Briefings</span>
+      </button>
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__status">
+        <span class="sidebar__status-dot"></span>
+        <span class="sidebar__status-text">System Nominal</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <main class="main" id="main">
+
+    <!-- ── Top Bar ─────────────────────────────────────── -->
+    <header class="topbar">
+      <div class="topbar__left">
+        <button class="topbar__menu-btn" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20">
+            <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+          </svg>
+        </button>
+        <h1 class="topbar__title" id="topbar-title">Overview</h1>
+        <span class="topbar__breadcrumb" id="topbar-breadcrumb">Mission Control</span>
+      </div>
+      <div class="topbar__right">
+        <div class="topbar__control">
+          <label class="topbar__label">Region</label>
+          <select class="topbar__select" id="region-select">
+            <option value="ERCOT">ERCOT — Texas</option>
+            <option value="CAISO">CAISO — California</option>
+            <option value="PJM">PJM — Mid-Atlantic</option>
+            <option value="MISO">MISO — Midwest</option>
+            <option value="NYISO">NYISO — New York</option>
+            <option value="FPL" selected>FPL — Florida</option>
+            <option value="SPP">SPP — Southwest</option>
+            <option value="ISO-NE">ISO-NE — New England</option>
+          </select>
+        </div>
+        <div class="topbar__control">
+          <label class="topbar__label">View</label>
+          <select class="topbar__select" id="persona-select">
+            <option value="ops">Grid Operations</option>
+            <option value="renewables">Renewables Analyst</option>
+            <option value="trader">Energy Trader</option>
+            <option value="data">Data Scientist</option>
+          </select>
+        </div>
+        <button class="topbar__btn" id="briefing-mode-btn">Briefing Mode</button>
+        <div class="topbar__freshness">
+          <span class="topbar__freshness-dot"></span>
+          <span class="topbar__freshness-text">Data fresh — 4 min ago</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══ TAB: Overview ═══════════════════════════════ -->
+    <section class="tab-panel tab-panel--active" id="panel-overview">
+
+      <!-- KPI Row -->
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi__header">
+            <span class="kpi__label">Current Demand</span>
+            <span class="kpi__badge kpi__badge--fresh">Live</span>
+          </div>
+          <span class="kpi__value">48,720 <small>MW</small></span>
+          <span class="kpi__delta kpi__delta--up">+3.2% vs yesterday</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header">
+            <span class="kpi__label">Peak Forecast</span>
+          </div>
+          <span class="kpi__value">52,140 <small>MW</small></span>
+          <span class="kpi__delta kpi__delta--up">+1.8% vs last week</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header">
+            <span class="kpi__label">Forecast Confidence</span>
+          </div>
+          <span class="kpi__value">94.2<small>%</small></span>
+          <span class="kpi__delta kpi__delta--stable">Stable</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header">
+            <span class="kpi__label">Risk Level</span>
+          </div>
+          <span class="kpi__value">Low</span>
+          <span class="kpi__delta kpi__delta--down">-12 pts from last week</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header">
+            <span class="kpi__label">Renewable Share</span>
+          </div>
+          <span class="kpi__value">34.7<small>%</small></span>
+          <span class="kpi__delta kpi__delta--up">+5.1% vs avg</span>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="overview-grid">
+
+        <!-- Demand Chart -->
+        <div class="card card--wide" data-persona="ops renewables trader data">
+          <div class="card__header">
+            <h3 class="card__title">24-Hour Demand Outlook</h3>
+            <div class="card__actions">
+              <button class="card__action card__action--active">24h</button>
+              <button class="card__action">48h</button>
+              <button class="card__action">7d</button>
+            </div>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-demand" height="280"></canvas>
+          </div>
+          <div class="card__legend">
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--text-muted)"></span>Actual</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--accent)"></span>Forecast</span>
+            <span class="legend-item"><span class="legend-swatch legend-swatch--band" style="background:var(--accent)"></span>Confidence Band</span>
+          </div>
+        </div>
+
+        <!-- Signal Panel -->
+        <div class="card" data-persona="ops trader">
+          <div class="card__header">
+            <h3 class="card__title">Active Signals</h3>
+            <span class="card__count">4</span>
+          </div>
+          <div class="card__body card__body--flush">
+            <div class="signal signal--warning">
+              <div class="signal__indicator"></div>
+              <div class="signal__content">
+                <p class="signal__text">Heat-driven demand risk elevated in western region</p>
+                <span class="signal__meta">ERCOT West — 2h ago</span>
+              </div>
+            </div>
+            <div class="signal signal--info">
+              <div class="signal__indicator"></div>
+              <div class="signal__content">
+                <p class="signal__text">Wind generation above forecast by 340 MW</p>
+                <span class="signal__meta">System-wide — 45 min ago</span>
+              </div>
+            </div>
+            <div class="signal signal--info">
+              <div class="signal__indicator"></div>
+              <div class="signal__content">
+                <p class="signal__text">Model confidence improved after overnight recalibration</p>
+                <span class="signal__meta">All regions — 3h ago</span>
+              </div>
+            </div>
+            <div class="signal signal--low">
+              <div class="signal__indicator"></div>
+              <div class="signal__content">
+                <p class="signal__text">Solar ramp expected 06:15–07:30 local time</p>
+                <span class="signal__meta">FPL — Scheduled</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weather Correlation -->
+        <div class="card" data-persona="ops renewables data">
+          <div class="card__header">
+            <h3 class="card__title">Weather–Demand Correlation</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-weather" height="220"></canvas>
+          </div>
+        </div>
+
+        <!-- Generation Mix -->
+        <div class="card" data-persona="ops renewables trader">
+          <div class="card__header">
+            <h3 class="card__title">Generation Mix</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-genmix" height="220"></canvas>
+          </div>
+        </div>
+
+        <!-- Model Performance -->
+        <div class="card card--wide" data-persona="ops data">
+          <div class="card__header">
+            <h3 class="card__title">Model Performance — Last 7 Days</h3>
+          </div>
+          <div class="card__body card__body--flush">
+            <div class="data-table">
+              <div class="data-table__row data-table__row--header">
+                <span class="data-table__cell">Model</span>
+                <span class="data-table__cell">MAPE</span>
+                <span class="data-table__cell">RMSE</span>
+                <span class="data-table__cell">MAE</span>
+                <span class="data-table__cell">R&sup2;</span>
+                <span class="data-table__cell">Grade</span>
+              </div>
+              <div class="data-table__row">
+                <span class="data-table__cell data-table__cell--name">XGBoost</span>
+                <span class="data-table__cell data-table__cell--mono">3.13%</span>
+                <span class="data-table__cell data-table__cell--mono">1,842</span>
+                <span class="data-table__cell data-table__cell--mono">1,204</span>
+                <span class="data-table__cell data-table__cell--mono">0.967</span>
+                <span class="data-table__cell"><span class="grade grade--a">A</span></span>
+              </div>
+              <div class="data-table__row">
+                <span class="data-table__cell data-table__cell--name">Prophet</span>
+                <span class="data-table__cell data-table__cell--mono">4.27%</span>
+                <span class="data-table__cell data-table__cell--mono">2,518</span>
+                <span class="data-table__cell data-table__cell--mono">1,672</span>
+                <span class="data-table__cell data-table__cell--mono">0.941</span>
+                <span class="data-table__cell"><span class="grade grade--b">B+</span></span>
+              </div>
+              <div class="data-table__row">
+                <span class="data-table__cell data-table__cell--name">SARIMAX</span>
+                <span class="data-table__cell data-table__cell--mono">5.01%</span>
+                <span class="data-table__cell data-table__cell--mono">2,945</span>
+                <span class="data-table__cell data-table__cell--mono">1,893</span>
+                <span class="data-table__cell data-table__cell--mono">0.918</span>
+                <span class="data-table__cell"><span class="grade grade--b">B</span></span>
+              </div>
+              <div class="data-table__row data-table__row--highlight">
+                <span class="data-table__cell data-table__cell--name">Ensemble</span>
+                <span class="data-table__cell data-table__cell--mono">2.89%</span>
+                <span class="data-table__cell data-table__cell--mono">1,697</span>
+                <span class="data-table__cell data-table__cell--mono">1,108</span>
+                <span class="data-table__cell data-table__cell--mono">0.974</span>
+                <span class="data-table__cell"><span class="grade grade--a">A+</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TAB: Forecast ═══════════════════════════════ -->
+    <section class="tab-panel" id="panel-forecast">
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">24h Peak</span></div>
+          <span class="kpi__value">52,140 <small>MW</small></span>
+          <span class="kpi__delta kpi__delta--up">+1.8%</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">48h Peak</span></div>
+          <span class="kpi__value">54,890 <small>MW</small></span>
+          <span class="kpi__delta kpi__delta--up">+3.4%</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">72h Peak</span></div>
+          <span class="kpi__value">51,220 <small>MW</small></span>
+          <span class="kpi__delta kpi__delta--down">-0.6%</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Confidence</span></div>
+          <span class="kpi__value">94.2<small>%</small></span>
+          <span class="kpi__delta kpi__delta--stable">Stable</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Primary Driver</span></div>
+          <span class="kpi__value" style="font-size:1.25rem">Temperature</span>
+          <span class="kpi__delta kpi__delta--up">CDD index rising</span>
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <div class="card card--full">
+          <div class="card__header">
+            <h3 class="card__title">Demand Forecast — 72h Horizon</h3>
+            <div class="card__actions">
+              <button class="card__action">Actual</button>
+              <button class="card__action card__action--active">Ensemble</button>
+              <button class="card__action">XGBoost</button>
+              <button class="card__action">Prophet</button>
+              <button class="card__action">SARIMAX</button>
+            </div>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-forecast-main" height="340"></canvas>
+          </div>
+          <div class="card__legend">
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--text-muted)"></span>Actual</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--accent)"></span>Ensemble</span>
+            <span class="legend-item"><span class="legend-swatch legend-swatch--band"></span>95% CI</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Forecast Drivers</h3>
+          </div>
+          <div class="card__body card__body--flush">
+            <div class="driver-list">
+              <div class="driver">
+                <div class="driver__info">
+                  <span class="driver__name">Temperature (CDD)</span>
+                  <span class="driver__impact">+2,340 MW</span>
+                </div>
+                <div class="driver__bar"><div class="driver__fill" style="--w:82%"></div></div>
+              </div>
+              <div class="driver">
+                <div class="driver__info">
+                  <span class="driver__name">Hour of Day</span>
+                  <span class="driver__impact">+1,890 MW</span>
+                </div>
+                <div class="driver__bar"><div class="driver__fill" style="--w:68%"></div></div>
+              </div>
+              <div class="driver">
+                <div class="driver__info">
+                  <span class="driver__name">Day of Week</span>
+                  <span class="driver__impact">+940 MW</span>
+                </div>
+                <div class="driver__bar"><div class="driver__fill" style="--w:42%"></div></div>
+              </div>
+              <div class="driver">
+                <div class="driver__info">
+                  <span class="driver__name">Wind Speed</span>
+                  <span class="driver__impact driver__impact--neg">-620 MW</span>
+                </div>
+                <div class="driver__bar"><div class="driver__fill driver__fill--neg" style="--w:31%"></div></div>
+              </div>
+              <div class="driver">
+                <div class="driver__info">
+                  <span class="driver__name">Solar Radiation</span>
+                  <span class="driver__impact driver__impact--neg">-480 MW</span>
+                </div>
+                <div class="driver__bar"><div class="driver__fill driver__fill--neg" style="--w:24%"></div></div>
+              </div>
+              <div class="driver">
+                <div class="driver__info">
+                  <span class="driver__name">Humidity</span>
+                  <span class="driver__impact">+310 MW</span>
+                </div>
+                <div class="driver__bar"><div class="driver__fill" style="--w:18%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Confidence by Horizon</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-confidence" height="220"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TAB: Risk ═══════════════════════════════════ -->
+    <section class="tab-panel" id="panel-risk">
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Overall Risk</span></div>
+          <span class="kpi__value">Low</span>
+          <span class="kpi__delta kpi__delta--down">-12 pts</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Active Alerts</span></div>
+          <span class="kpi__value">3</span>
+          <span class="kpi__delta kpi__delta--stable">1 critical</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Forecast Stability</span></div>
+          <span class="kpi__value">High</span>
+          <span class="kpi__delta kpi__delta--up">Improving</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Weather Severity</span></div>
+          <span class="kpi__value">Moderate</span>
+          <span class="kpi__delta kpi__delta--stable">Steady</span>
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <div class="card card--full">
+          <div class="card__header">
+            <h3 class="card__title">Risk Timeline — Next 72 Hours</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-risk-timeline" height="200"></canvas>
+          </div>
+        </div>
+
+        <div class="card card--wide">
+          <div class="card__header">
+            <h3 class="card__title">Active Alerts</h3>
+          </div>
+          <div class="card__body card__body--flush">
+            <div class="alert-list">
+              <div class="alert alert--critical">
+                <div class="alert__severity">Critical</div>
+                <div class="alert__content">
+                  <h4 class="alert__title">Excessive Heat Warning — ERCOT West</h4>
+                  <p class="alert__desc">NWS has issued an excessive heat warning for western Texas. Expected temperatures 108-112&deg;F. Peak demand may exceed seasonal projections by 4-6%.</p>
+                  <span class="alert__meta">Issued 14:20 CDT — Expires tomorrow 20:00 CDT</span>
+                </div>
+              </div>
+              <div class="alert alert--warning">
+                <div class="alert__severity">Warning</div>
+                <div class="alert__content">
+                  <h4 class="alert__title">Forecast Divergence — Prophet vs XGBoost</h4>
+                  <p class="alert__desc">Prophet model diverging from XGBoost by &gt;8% for the 48-72h window. Ensemble weighting adjusted automatically.</p>
+                  <span class="alert__meta">Detected 2h ago — Auto-resolved</span>
+                </div>
+              </div>
+              <div class="alert alert--info">
+                <div class="alert__severity">Info</div>
+                <div class="alert__content">
+                  <h4 class="alert__title">Scheduled Maintenance — Unit 4 Gas Turbine</h4>
+                  <p class="alert__desc">Planned maintenance window for 340 MW gas turbine. Net load increase expected during maintenance period.</p>
+                  <span class="alert__meta">Tomorrow 06:00–14:00 CDT</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Anomaly Watch</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-anomaly" height="220"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TAB: Grid ═══════════════════════════════════ -->
+    <section class="tab-panel" id="panel-grid">
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Total Generation</span></div>
+          <span class="kpi__value">49,180 <small>MW</small></span>
+          <span class="kpi__delta kpi__delta--up">+2.4%</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Net Load</span></div>
+          <span class="kpi__value">38,420 <small>MW</small></span>
+          <span class="kpi__delta kpi__delta--stable">Flat</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Renewable Share</span></div>
+          <span class="kpi__value">34.7<small>%</small></span>
+          <span class="kpi__delta kpi__delta--up">+5.1%</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Wind Output</span></div>
+          <span class="kpi__value">12,480 <small>MW</small></span>
+          <span class="kpi__delta kpi__delta--up">+340 MW above fcst</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Solar Output</span></div>
+          <span class="kpi__value">4,560 <small>MW</small></span>
+          <span class="kpi__delta kpi__delta--down">Ramping down</span>
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <div class="card card--wide">
+          <div class="card__header">
+            <h3 class="card__title">Generation Stack — 24h</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-gen-stack" height="300"></canvas>
+          </div>
+          <div class="card__legend">
+            <span class="legend-item"><span class="legend-swatch" style="background:#6f6f6f"></span>Gas</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#4589ff"></span>Wind</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#f1c21b"></span>Solar</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#42be65"></span>Nuclear</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#a56eff"></span>Other</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Current Fuel Mix</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-fuel-donut" height="220"></canvas>
+          </div>
+        </div>
+
+        <div class="card card--wide">
+          <div class="card__header">
+            <h3 class="card__title">Net Load Profile</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-net-load" height="240"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Interchange</h3>
+          </div>
+          <div class="card__body card__body--flush">
+            <div class="data-table data-table--compact">
+              <div class="data-table__row data-table__row--header">
+                <span class="data-table__cell">Neighbor</span>
+                <span class="data-table__cell">Flow (MW)</span>
+                <span class="data-table__cell">Direction</span>
+              </div>
+              <div class="data-table__row">
+                <span class="data-table__cell data-table__cell--name">SPP</span>
+                <span class="data-table__cell data-table__cell--mono">+420</span>
+                <span class="data-table__cell"><span class="flow-dir flow-dir--in">Import</span></span>
+              </div>
+              <div class="data-table__row">
+                <span class="data-table__cell data-table__cell--name">MISO</span>
+                <span class="data-table__cell data-table__cell--mono">-180</span>
+                <span class="data-table__cell"><span class="flow-dir flow-dir--out">Export</span></span>
+              </div>
+              <div class="data-table__row">
+                <span class="data-table__cell data-table__cell--name">Mexico</span>
+                <span class="data-table__cell data-table__cell--mono">-95</span>
+                <span class="data-table__cell"><span class="flow-dir flow-dir--out">Export</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TAB: Scenarios ══════════════════════════════ -->
+    <section class="tab-panel" id="panel-scenarios">
+      <div class="scenarios-layout">
+        <div class="scenarios-controls">
+          <div class="card">
+            <div class="card__header">
+              <h3 class="card__title">Scenario Parameters</h3>
+            </div>
+            <div class="card__body">
+              <div class="slider-group">
+                <div class="slider">
+                  <div class="slider__header">
+                    <span class="slider__label">Temperature Offset</span>
+                    <span class="slider__value" id="temp-val">+0&deg;F</span>
+                  </div>
+                  <input type="range" class="slider__input" id="temp-slider" min="-10" max="15" value="0" step="1">
+                </div>
+                <div class="slider">
+                  <div class="slider__header">
+                    <span class="slider__label">Wind Capacity Factor</span>
+                    <span class="slider__value" id="wind-val">100%</span>
+                  </div>
+                  <input type="range" class="slider__input" id="wind-slider" min="0" max="150" value="100" step="5">
+                </div>
+                <div class="slider">
+                  <div class="slider__header">
+                    <span class="slider__label">Solar Irradiance</span>
+                    <span class="slider__value" id="solar-val">100%</span>
+                  </div>
+                  <input type="range" class="slider__input" id="solar-slider" min="0" max="130" value="100" step="5">
+                </div>
+                <div class="slider">
+                  <div class="slider__header">
+                    <span class="slider__label">Demand Growth</span>
+                    <span class="slider__value" id="demand-val">0%</span>
+                  </div>
+                  <input type="range" class="slider__input" id="demand-slider" min="-10" max="15" value="0" step="1">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__header">
+              <h3 class="card__title">Presets</h3>
+            </div>
+            <div class="card__body card__body--flush">
+              <button class="preset" data-temp="10" data-wind="60" data-solar="100" data-demand="5">
+                <span class="preset__name">Summer Heat Wave</span>
+                <span class="preset__meta">+10&deg;F, low wind, demand +5%</span>
+              </button>
+              <button class="preset" data-temp="0" data-wind="20" data-solar="30" data-demand="0">
+                <span class="preset__name">Winter Storm</span>
+                <span class="preset__meta">Wind curtailment, low solar</span>
+              </button>
+              <button class="preset" data-temp="-3" data-wind="140" data-solar="120" data-demand="-2">
+                <span class="preset__name">High Renewables</span>
+                <span class="preset__meta">Strong wind + solar, mild temps</span>
+              </button>
+              <button class="preset" data-temp="5" data-wind="80" data-solar="90" data-demand="8">
+                <span class="preset__name">Peak Demand Stress</span>
+                <span class="preset__meta">Hot, moderate renewables, +8% demand</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="scenarios-results">
+          <div class="card card--full">
+            <div class="card__header">
+              <h3 class="card__title">Scenario Impact — Demand Forecast</h3>
+              <div class="card__actions">
+                <span class="card__action card__action--active">Baseline vs Scenario</span>
+              </div>
+            </div>
+            <div class="card__body">
+              <canvas id="chart-scenario" height="320"></canvas>
+            </div>
+            <div class="card__legend">
+              <span class="legend-item"><span class="legend-swatch" style="background:var(--text-muted)"></span>Baseline</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:var(--accent)"></span>Scenario</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:var(--warn)"></span>Delta</span>
+            </div>
+          </div>
+
+          <div class="scenario-deltas">
+            <div class="delta-card">
+              <span class="delta-card__label">Peak Delta</span>
+              <span class="delta-card__value" id="delta-peak">+0 MW</span>
+            </div>
+            <div class="delta-card">
+              <span class="delta-card__label">Avg Delta</span>
+              <span class="delta-card__value" id="delta-avg">+0 MW</span>
+            </div>
+            <div class="delta-card">
+              <span class="delta-card__label">Risk Change</span>
+              <span class="delta-card__value" id="delta-risk">None</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TAB: Models ═════════════════════════════════ -->
+    <section class="tab-panel" id="panel-models">
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Best Model</span></div>
+          <span class="kpi__value" style="font-size:1.25rem">XGBoost</span>
+          <span class="kpi__delta kpi__delta--up">3.13% MAPE</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Ensemble MAPE</span></div>
+          <span class="kpi__value">2.89<small>%</small></span>
+          <span class="kpi__delta kpi__delta--down">-0.4% vs last week</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Model Drift</span></div>
+          <span class="kpi__value">None</span>
+          <span class="kpi__delta kpi__delta--stable">Stable</span>
+        </div>
+        <div class="kpi">
+          <div class="kpi__header"><span class="kpi__label">Last Trained</span></div>
+          <span class="kpi__value" style="font-size:1.125rem">4h ago</span>
+          <span class="kpi__delta kpi__delta--stable">On schedule</span>
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <div class="card card--full">
+          <div class="card__header">
+            <h3 class="card__title">MAPE by Model — 21-Day Backtest</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-model-mape" height="280"></canvas>
+          </div>
+          <div class="card__legend">
+            <span class="legend-item"><span class="legend-swatch" style="background:#42be65"></span>XGBoost</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#f1c21b"></span>Prophet</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#a56eff"></span>SARIMAX</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#4589ff"></span>Ensemble</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Feature Importance (SHAP)</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-shap" height="260"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Residual Distribution</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-residuals" height="260"></canvas>
+          </div>
+        </div>
+
+        <div class="card card--wide">
+          <div class="card__header">
+            <h3 class="card__title">Error by Hour of Day</h3>
+          </div>
+          <div class="card__body">
+            <canvas id="chart-error-hour" height="220"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TAB: Briefings ══════════════════════════════ -->
+    <section class="tab-panel" id="panel-briefings">
+      <div class="briefings-layout">
+        <div class="card card--full">
+          <div class="card__header">
+            <h3 class="card__title">Daily System Briefing</h3>
+            <div class="card__actions">
+              <span class="card__meta" id="briefing-tab-meta">Generated today at 06:15 CDT</span>
+            </div>
+          </div>
+          <div class="card__body">
+            <div class="briefing" id="briefing-tab-body">
+              <!-- dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <div class="card card--full">
+          <div class="card__header">
+            <h3 class="card__title">Previous Briefings</h3>
+          </div>
+          <div class="card__body card__body--flush" id="briefing-tab-history">
+            <!-- dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ Briefing Mode Overlay ════════════════════════ -->
+  <div class="briefing-overlay" id="briefing-overlay">
+    <div class="briefing-overlay__chrome">
+      <div class="briefing-overlay__topbar">
+        <div class="briefing-overlay__brand">
+          <span class="sidebar__logo">GP</span>
+          <span class="briefing-overlay__title">GridPulse — System Briefing</span>
+        </div>
+        <div class="briefing-overlay__meta">
+          <span class="briefing-overlay__region" id="briefing-region"></span>
+          <span class="briefing-overlay__timestamp" id="briefing-timestamp"></span>
+          <button class="briefing-overlay__close" id="briefing-close">Exit Briefing Mode</button>
+        </div>
+      </div>
+    </div>
+    <div class="briefing-overlay__scroll">
+      <article class="briefing-overlay__body" id="briefing-body">
+        <!-- dynamically populated -->
+      </article>
+    </div>
+  </div>
+
+  <script src="assets/platform.js"></script>
+</body>
+</html>

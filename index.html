@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GridPulse — Energy Intelligence Platform</title>
+  <meta name="description" content="GridPulse unifies demand forecasting, forecast confidence, grid visibility, and scenario-based decision support in one energy intelligence platform.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <!-- ── Navigation ──────────────────────────────────────── -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">
+        <span class="nav__logo-mark">GP</span>
+        <span class="nav__logo-text">Grid<span class="nav__logo-accent">Pulse</span></span>
+      </a>
+      <div class="nav__links" id="nav-links">
+        <a href="#platform" class="nav__link">Platform</a>
+        <a href="#modules" class="nav__link">Modules</a>
+        <a href="#workflows" class="nav__link">Workflows</a>
+        <a href="#credibility" class="nav__link">Technology</a>
+        <a href="platform.html" class="nav__link">Launch Platform</a>
+        <a href="#contact" class="nav__link nav__link--cta">Request Demo</a>
+      </div>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Hero ────────────────────────────────────────────── -->
+  <section class="hero" id="hero">
+    <div class="hero__grid">
+      <div class="hero__content">
+        <p class="hero__eyebrow" data-reveal>Energy Intelligence Platform</p>
+        <h1 class="hero__title" data-reveal>
+          Operational clarity<br>
+          for a volatile grid.
+        </h1>
+        <p class="hero__subtitle" data-reveal>
+          GridPulse unifies demand forecasting, forecast confidence, grid visibility,
+          and scenario-based decision support into one decision-ready platform for energy teams.
+        </p>
+        <div class="hero__actions" data-reveal>
+          <a href="#contact" class="btn btn--primary">Request a demo</a>
+          <a href="platform.html" class="btn btn--ghost">Explore platform</a>
+        </div>
+        <div class="hero__proof" data-reveal>
+          <div class="hero__proof-item">
+            <span class="hero__proof-number">8</span>
+            <span class="hero__proof-label">Regional grids</span>
+          </div>
+          <div class="hero__proof-divider"></div>
+          <div class="hero__proof-item">
+            <span class="hero__proof-number">3.1%</span>
+            <span class="hero__proof-label">MAPE accuracy</span>
+          </div>
+          <div class="hero__proof-divider"></div>
+          <div class="hero__proof-item">
+            <span class="hero__proof-number">43</span>
+            <span class="hero__proof-label">Engineered features</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__dashboard" data-reveal>
+          <div class="mock">
+            <div class="mock__header">
+              <div class="mock__dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="mock__title">GridPulse — ERCOT Overview</span>
+            </div>
+            <div class="mock__body">
+              <div class="mock__kpi-row">
+                <div class="mock__kpi">
+                  <span class="mock__kpi-label">Peak Demand</span>
+                  <span class="mock__kpi-value">72.4 <small>GW</small></span>
+                  <span class="mock__kpi-delta mock__kpi-delta--up">+2.1%</span>
+                </div>
+                <div class="mock__kpi">
+                  <span class="mock__kpi-label">Forecast Conf.</span>
+                  <span class="mock__kpi-value">94.2<small>%</small></span>
+                  <span class="mock__kpi-delta mock__kpi-delta--stable">Stable</span>
+                </div>
+                <div class="mock__kpi">
+                  <span class="mock__kpi-label">Risk Level</span>
+                  <span class="mock__kpi-value">Low</span>
+                  <span class="mock__kpi-delta mock__kpi-delta--down">-12pts</span>
+                </div>
+              </div>
+              <div class="mock__chart">
+                <svg viewBox="0 0 480 160" class="mock__chart-svg" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="chart-grad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.3"/>
+                      <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <!-- confidence band -->
+                  <path d="M0,100 Q60,90 120,75 T240,60 T360,50 T480,65 L480,120 Q360,95 240,105 T120,115 T0,130 Z" fill="url(#chart-grad)" class="mock__band"/>
+                  <!-- actual line -->
+                  <path d="M0,115 Q40,110 80,105 T160,95 T240,85 L240,85" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-dasharray="4,3" class="mock__line-actual"/>
+                  <!-- forecast line -->
+                  <path d="M0,115 Q60,105 120,90 T240,75 T360,60 T480,70" fill="none" stroke="var(--accent)" stroke-width="2.5" class="mock__line-forecast"/>
+                  <!-- dot -->
+                  <circle cx="240" cy="75" r="4" fill="var(--accent)" class="mock__dot"/>
+                </svg>
+                <div class="mock__chart-labels">
+                  <span>Now</span>
+                  <span>+24h</span>
+                  <span>+48h</span>
+                  <span>+72h</span>
+                </div>
+              </div>
+              <div class="mock__signal">
+                <div class="mock__signal-dot"></div>
+                <span>Heat-driven demand risk elevated — ERCOT West</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero__scroll-cue">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ── Marquee Strip ───────────────────────────────────── -->
+  <section class="marquee">
+    <div class="marquee__track">
+      <span class="marquee__item">Weather-aware forecasting</span>
+      <span class="marquee__sep">/</span>
+      <span class="marquee__item">Confidence-aware modeling</span>
+      <span class="marquee__sep">/</span>
+      <span class="marquee__item">Regional grid visibility</span>
+      <span class="marquee__sep">/</span>
+      <span class="marquee__item">Scenario-ready workflows</span>
+      <span class="marquee__sep">/</span>
+      <span class="marquee__item">Multi-model ensemble</span>
+      <span class="marquee__sep">/</span>
+      <span class="marquee__item">Real-time risk signals</span>
+      <span class="marquee__sep">/</span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee__item">Weather-aware forecasting</span>
+      <span class="marquee__sep">/</span>
+      <span class="marquee__item">Confidence-aware modeling</span>
+      <span class="marquee__sep">/</span>
+      <span class="marquee__item">Regional grid visibility</span>
+      <span class="marquee__sep">/</span>
+      <span class="marquee__item">Scenario-ready workflows</span>
+      <span class="marquee__sep">/</span>
+      <span class="marquee__item">Multi-model ensemble</span>
+      <span class="marquee__sep">/</span>
+      <span class="marquee__item">Real-time risk signals</span>
+      <span class="marquee__sep">/</span>
+    </div>
+  </section>
+
+  <!-- ── Platform Section ────────────────────────────────── -->
+  <section class="section section--dark" id="platform">
+    <div class="section__inner">
+      <div class="section__header" data-reveal>
+        <p class="section__number">01</p>
+        <h2 class="section__title">A clearer operating layer<br>for energy decisions</h2>
+        <p class="section__desc">
+          GridPulse brings fragmented operational signals into one decision-ready
+          system so teams can move faster without losing context or confidence.
+        </p>
+      </div>
+      <div class="pillars">
+        <article class="pillar" data-reveal>
+          <div class="pillar__index">01</div>
+          <h3 class="pillar__title">Forecast with context</h3>
+          <p class="pillar__desc">
+            Unify demand, weather, and time-series patterns in a forecasting
+            experience designed for real operating conditions.
+          </p>
+          <div class="pillar__line"></div>
+        </article>
+        <article class="pillar" data-reveal>
+          <div class="pillar__index">02</div>
+          <h3 class="pillar__title">See confidence, not just output</h3>
+          <p class="pillar__desc">
+            Understand model reliability, forecast uncertainty, and recent
+            performance before acting on a number.
+          </p>
+          <div class="pillar__line"></div>
+        </article>
+        <article class="pillar" data-reveal>
+          <div class="pillar__index">03</div>
+          <h3 class="pillar__title">Surface risk earlier</h3>
+          <p class="pillar__desc">
+            Track anomalies, severe conditions, and forecast instability
+            in one operational view.
+          </p>
+          <div class="pillar__line"></div>
+        </article>
+        <article class="pillar" data-reveal>
+          <div class="pillar__index">04</div>
+          <h3 class="pillar__title">Plan through scenarios</h3>
+          <p class="pillar__desc">
+            Test assumptions and understand how changing conditions can
+            alter expected demand and decision windows.
+          </p>
+          <div class="pillar__line"></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Modules Section ─────────────────────────────────── -->
+  <section class="section" id="modules">
+    <div class="section__inner">
+      <div class="section__header" data-reveal>
+        <p class="section__number">02</p>
+        <h2 class="section__title">One platform.<br>Multiple decision layers.</h2>
+        <p class="section__desc">
+          Start with forecasting, then expand into risk, grid visibility, scenarios,
+          and model oversight without fragmenting the workflow.
+        </p>
+      </div>
+      <div class="modules">
+        <article class="module" data-reveal>
+          <div class="module__icon">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="4,24 10,16 16,20 22,8 28,14"/>
+              <line x1="4" y1="28" x2="28" y2="28"/>
+            </svg>
+          </div>
+          <h3 class="module__name">Forecast</h3>
+          <p class="module__desc">Weather-aware demand forecasts with confidence bands, horizon views, and model-aware comparisons.</p>
+        </article>
+        <article class="module" data-reveal>
+          <div class="module__icon">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polygon points="16,4 28,28 4,28"/>
+              <line x1="16" y1="14" x2="16" y2="20"/>
+              <circle cx="16" cy="24" r="1" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 class="module__name">Risk</h3>
+          <p class="module__desc">Operational risk visibility for anomalies, severe conditions, and forecast instability.</p>
+        </article>
+        <article class="module" data-reveal>
+          <div class="module__icon">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="16" cy="16" r="11"/>
+              <path d="M16,5 L16,16 L24,20"/>
+            </svg>
+          </div>
+          <h3 class="module__name">Grid</h3>
+          <p class="module__desc">Generation mix, net load, and regional operating context in one unified view.</p>
+        </article>
+        <article class="module" data-reveal>
+          <div class="module__icon">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="4" y="4" width="24" height="24" rx="2"/>
+              <line x1="4" y1="16" x2="28" y2="16"/>
+              <line x1="16" y1="4" x2="16" y2="28"/>
+            </svg>
+          </div>
+          <h3 class="module__name">Scenarios</h3>
+          <p class="module__desc">What-if planning tools for testing conditions before they become costly.</p>
+        </article>
+        <article class="module" data-reveal>
+          <div class="module__icon">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="10" cy="22" r="5"/>
+              <circle cx="22" cy="10" r="5"/>
+              <line x1="14" y1="18" x2="18" y2="14"/>
+            </svg>
+          </div>
+          <h3 class="module__name">Models</h3>
+          <p class="module__desc">Backtesting, model validation, drift awareness, and forecast accountability.</p>
+        </article>
+        <article class="module" data-reveal>
+          <div class="module__icon">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="6" y="4" width="20" height="24" rx="2"/>
+              <line x1="10" y1="10" x2="22" y2="10"/>
+              <line x1="10" y1="15" x2="22" y2="15"/>
+              <line x1="10" y1="20" x2="18" y2="20"/>
+            </svg>
+          </div>
+          <h3 class="module__name">Briefings</h3>
+          <p class="module__desc">Narrative summaries, executive snapshots, and presentation-ready operational updates.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Workflows Section ───────────────────────────────── -->
+  <section class="section section--dark" id="workflows">
+    <div class="section__inner">
+      <div class="section__header" data-reveal>
+        <p class="section__number">03</p>
+        <h2 class="section__title">Designed for the people<br>who use the signal</h2>
+        <p class="section__desc">
+          Role-adapted views for every operational workflow.
+          One system, many perspectives.
+        </p>
+      </div>
+      <div class="roles">
+        <article class="role" data-reveal>
+          <div class="role__number">01</div>
+          <h3 class="role__title">Utility Operations</h3>
+          <p class="role__desc">See demand direction, risk windows, and high-priority conditions quickly. Start with the Overview and drill into Forecast or Risk when signals shift.</p>
+          <div class="role__tags">
+            <span class="role__tag">Overview</span>
+            <span class="role__tag">Risk</span>
+            <span class="role__tag">Grid</span>
+          </div>
+        </article>
+        <article class="role" data-reveal>
+          <div class="role__number">02</div>
+          <h3 class="role__title">Renewables Planning</h3>
+          <p class="role__desc">Understand weather-driven shifts and how they affect expected grid behavior. Monitor generation mix and renewable share across regions.</p>
+          <div class="role__tags">
+            <span class="role__tag">Forecast</span>
+            <span class="role__tag">Grid</span>
+            <span class="role__tag">Scenarios</span>
+          </div>
+        </article>
+        <article class="role" data-reveal>
+          <div class="role__number">03</div>
+          <h3 class="role__title">Trading & Markets</h3>
+          <p class="role__desc">Track demand movement, changing conditions, and forecast divergence with greater speed. Compare model outputs and confidence in real time.</p>
+          <div class="role__tags">
+            <span class="role__tag">Forecast</span>
+            <span class="role__tag">Risk</span>
+            <span class="role__tag">Models</span>
+          </div>
+        </article>
+        <article class="role" data-reveal>
+          <div class="role__number">04</div>
+          <h3 class="role__title">Analytics & Data Science</h3>
+          <p class="role__desc">Monitor model performance, confidence degradation, and validation results. Inspect feature importance, SHAP values, and error decomposition.</p>
+          <div class="role__tags">
+            <span class="role__tag">Models</span>
+            <span class="role__tag">Scenarios</span>
+            <span class="role__tag">Briefings</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Full-Width Visual Break ─────────────────────────── -->
+  <section class="showcase">
+    <div class="showcase__inner">
+      <div class="showcase__text" data-reveal>
+        <p class="showcase__eyebrow">From signal to decision</p>
+        <h2 class="showcase__title">
+          A system built for<br>
+          operational tempo.
+        </h2>
+        <ul class="showcase__list">
+          <li>Start with a region or operating view</li>
+          <li>Review today's demand outlook and confidence</li>
+          <li>Inspect rising risks and changing conditions</li>
+          <li>Compare scenarios before action</li>
+          <li>Share a briefing-ready summary with stakeholders</li>
+        </ul>
+      </div>
+      <div class="showcase__visual" data-reveal>
+        <div class="showcase__mock">
+          <div class="mock mock--wide">
+            <div class="mock__header">
+              <div class="mock__dots"><span></span><span></span><span></span></div>
+              <span class="mock__title">GridPulse — Scenario Simulator</span>
+            </div>
+            <div class="mock__body">
+              <div class="mock__tabs">
+                <span class="mock__tab">Overview</span>
+                <span class="mock__tab">Forecast</span>
+                <span class="mock__tab mock__tab--active">Scenarios</span>
+                <span class="mock__tab">Risk</span>
+                <span class="mock__tab">Models</span>
+              </div>
+              <div class="mock__scenario-grid">
+                <div class="mock__scenario-panel">
+                  <div class="mock__scenario-label">Baseline</div>
+                  <div class="mock__scenario-bar" style="--w: 72%"></div>
+                  <div class="mock__scenario-label">+5&deg;F Heat Wave</div>
+                  <div class="mock__scenario-bar mock__scenario-bar--accent" style="--w: 88%"></div>
+                  <div class="mock__scenario-label">Wind Curtailment</div>
+                  <div class="mock__scenario-bar mock__scenario-bar--warn" style="--w: 81%"></div>
+                </div>
+                <div class="mock__scenario-chart">
+                  <svg viewBox="0 0 280 100" preserveAspectRatio="none">
+                    <path d="M0,70 Q35,65 70,55 T140,40 T210,30 T280,35" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <path d="M0,70 Q35,60 70,45 T140,25 T210,15 T280,20" fill="none" stroke="var(--accent)" stroke-width="2"/>
+                    <path d="M0,70 Q35,62 70,50 T140,35 T210,28 T280,30" fill="none" stroke="var(--warn)" stroke-width="1.5"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Credibility Section ─────────────────────────────── -->
+  <section class="section" id="credibility">
+    <div class="section__inner">
+      <div class="section__header" data-reveal>
+        <p class="section__number">04</p>
+        <h2 class="section__title">Built for<br>technical scrutiny</h2>
+        <p class="section__desc">
+          GridPulse is designed to be credible with both operators and technical stakeholders.
+          Not a black box. Not a static dashboard.
+        </p>
+      </div>
+      <div class="specs">
+        <div class="spec" data-reveal>
+          <div class="spec__header">
+            <h4 class="spec__title">Data Sources</h4>
+            <span class="spec__badge">Real-time</span>
+          </div>
+          <ul class="spec__list">
+            <li>EIA API v2 — hourly demand, generation, interchange</li>
+            <li>Open-Meteo — 17 weather variables, historical + forecast</li>
+            <li>NOAA/NWS — severe weather alerts and advisories</li>
+          </ul>
+        </div>
+        <div class="spec" data-reveal>
+          <div class="spec__header">
+            <h4 class="spec__title">Models</h4>
+            <span class="spec__badge">Ensemble</span>
+          </div>
+          <ul class="spec__list">
+            <li>Prophet with weather regressors</li>
+            <li>SARIMAX with auto-order selection</li>
+            <li>XGBoost with TimeSeriesSplit CV + SHAP</li>
+            <li>1/MAPE weighted ensemble</li>
+          </ul>
+        </div>
+        <div class="spec" data-reveal>
+          <div class="spec__header">
+            <h4 class="spec__title">Engineering</h4>
+            <span class="spec__badge">43 Features</span>
+          </div>
+          <ul class="spec__list">
+            <li>CDD/HDD thermal indices</li>
+            <li>Wind power and solar capacity factors</li>
+            <li>Lagged and rolling aggregates</li>
+            <li>Cyclical time encodings</li>
+          </ul>
+        </div>
+        <div class="spec" data-reveal>
+          <div class="spec__header">
+            <h4 class="spec__title">Infrastructure</h4>
+            <span class="spec__badge">Cloud-native</span>
+          </div>
+          <ul class="spec__list">
+            <li>Docker multi-stage builds</li>
+            <li>Cloud Run with auto-scaling</li>
+            <li>Redis Memorystore precompute</li>
+            <li>CI/CD via GitHub Actions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Regions ─────────────────────────────────────────── -->
+  <section class="section section--dark" id="regions">
+    <div class="section__inner">
+      <div class="regions__layout">
+        <div class="regions__text" data-reveal>
+          <p class="section__number">05</p>
+          <h2 class="section__title">Eight regional grids.<br>One unified view.</h2>
+          <p class="section__desc">
+            Coverage across major US balancing authorities, each with localized
+            weather correlation, generation context, and demand behavior.
+          </p>
+        </div>
+        <div class="regions__grid" data-reveal>
+          <div class="region-card">
+            <span class="region-card__code">ERCOT</span>
+            <span class="region-card__name">Texas</span>
+          </div>
+          <div class="region-card">
+            <span class="region-card__code">CAISO</span>
+            <span class="region-card__name">California</span>
+          </div>
+          <div class="region-card">
+            <span class="region-card__code">PJM</span>
+            <span class="region-card__name">Mid-Atlantic</span>
+          </div>
+          <div class="region-card">
+            <span class="region-card__code">MISO</span>
+            <span class="region-card__name">Midwest</span>
+          </div>
+          <div class="region-card">
+            <span class="region-card__code">NYISO</span>
+            <span class="region-card__name">New York</span>
+          </div>
+          <div class="region-card">
+            <span class="region-card__code">FPL</span>
+            <span class="region-card__name">Florida</span>
+          </div>
+          <div class="region-card">
+            <span class="region-card__code">SPP</span>
+            <span class="region-card__name">Southwest</span>
+          </div>
+          <div class="region-card">
+            <span class="region-card__code">ISO-NE</span>
+            <span class="region-card__name">New England</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA Close ───────────────────────────────────────── -->
+  <section class="cta-section" id="contact">
+    <div class="cta-section__inner">
+      <div class="cta-section__content" data-reveal>
+        <h2 class="cta-section__title">
+          Bring forecasting, confidence,<br>and grid visibility into one view.
+        </h2>
+        <p class="cta-section__desc">
+          GridPulse helps energy teams interpret changing conditions faster
+          and act with more confidence.
+        </p>
+        <div class="cta-section__actions">
+          <a href="mailto:hello@gridpulse.dev" class="btn btn--primary btn--lg">Request a demo</a>
+          <a href="platform.html" class="btn btn--ghost btn--lg">Launch platform</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ──────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <span class="nav__logo-mark">GP</span>
+          <p class="footer__tagline">See demand sooner.<br>Decide with confidence.</p>
+        </div>
+        <div class="footer__columns">
+          <div class="footer__col">
+            <h4 class="footer__col-title">Platform</h4>
+            <a href="#platform" class="footer__link">Overview</a>
+            <a href="#modules" class="footer__link">Modules</a>
+            <a href="#workflows" class="footer__link">Workflows</a>
+            <a href="#credibility" class="footer__link">Technology</a>
+          </div>
+          <div class="footer__col">
+            <h4 class="footer__col-title">Modules</h4>
+            <a href="#modules" class="footer__link">Forecast</a>
+            <a href="#modules" class="footer__link">Risk</a>
+            <a href="#modules" class="footer__link">Grid</a>
+            <a href="#modules" class="footer__link">Scenarios</a>
+            <a href="#modules" class="footer__link">Models</a>
+            <a href="#modules" class="footer__link">Briefings</a>
+          </div>
+          <div class="footer__col">
+            <h4 class="footer__col-title">Resources</h4>
+            <a href="#credibility" class="footer__link">Documentation</a>
+            <a href="#credibility" class="footer__link">API Reference</a>
+            <a href="#contact" class="footer__link">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">&copy; 2026 GridPulse. Energy Intelligence Platform.</p>
+        <p class="footer__legal">Signal over noise. Confidence over guesswork.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/main.js"></script>
+</body>
+</html>
