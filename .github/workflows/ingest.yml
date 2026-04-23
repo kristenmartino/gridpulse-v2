@@ -1,0 +1,85 @@
+name: Data Pipeline — Ingest + Train
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: "0 */6 * * *"
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install xgboost scikit-learn numpy
+
+      - name: Ingest demand data (last 7 days)
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+        run: python data/ingest.py --days 7
+
+      - name: Download existing database
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: gridpulse-db
+          path: data/
+
+      - name: Ingest demand data (backfill 90 days if DB is new)
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+        run: |
+          ROW_COUNT=$(python3 -c "
+          import sqlite3
+          conn = sqlite3.connect('data/gridpulse.db')
+          count = conn.execute('SELECT COUNT(*) FROM demand').fetchone()[0]
+          print(count)
+          conn.close()
+          ")
+          echo "Current row count: $ROW_COUNT"
+          if [ "$ROW_COUNT" -lt 1000 ]; then
+            echo "Database looks sparse, backfilling 90 days..."
+            python data/ingest.py --days 90
+          else
+            echo "Database has sufficient data, incremental ingest only."
+            python data/ingest.py --days 7
+          fi
+
+      - name: Train models
+        run: python data/train.py --forecast 24
+
+      - name: Upload database artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gridpulse-db
+          path: data/gridpulse.db
+          retention-days: 30
+
+      - name: Upload model artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: gridpulse-models
+          path: data/models/
+          retention-days: 30
+
+      - name: Commit updated forecasts
+        run: |
+          git config user.name "GridPulse Pipeline"
+          git config user.email "pipeline@gridpulse.dev"
+          git add data/models/*.json
+          if git diff --cached --quiet; then
+            echo "No forecast changes to commit."
+          else
+            git commit -m "chore: update forecasts and model metrics [automated]"
+            git push
+          fi

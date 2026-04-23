@@ -15,17 +15,19 @@ Endpoint:    electricity/rto/region-data/data
 
 import argparse
 import json
+import os
 import sqlite3
 import sys
+import time
+import urllib.error
 import urllib.request
 import urllib.parse
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-# EIA Open Data API — free, no key required for demo, but rate-limited.
-# Register at https://www.eia.gov/opendata/register.php for a real key.
+# EIA Open Data API — free, register at https://www.eia.gov/opendata/register.php
 API_BASE = "https://api.eia.gov/v2/electricity/rto/region-data/data/"
-API_KEY = "DEMO_KEY"
+API_KEY = os.environ.get("EIA_API_KEY", "DEMO_KEY")
 
 # Balancing authorities we ingest
 REGIONS = {
@@ -33,7 +35,11 @@ REGIONS = {
     "CISO": "CAISO",
     "PJM":  "PJM",
     "MISO": "MISO",
+    "FPL":  "FPL",
 }
+
+MAX_RETRIES = 3
+RETRY_DELAY = 30  # seconds
 
 DB_PATH = Path(__file__).parent / "gridpulse.db"
 
@@ -93,12 +99,26 @@ def fetch_demand(region: str, start: str, end: str) -> list[dict]:
         url = f"{API_BASE}?{params}"
         print(f"  Fetching {region} offset={offset}...", end=" ", flush=True)
 
-        try:
-            req = urllib.request.Request(url, headers={"User-Agent": "GridPulse/2.0"})
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                body = json.loads(resp.read().decode())
-        except Exception as e:
-            print(f"ERROR: {e}")
+        body = None
+        for attempt in range(MAX_RETRIES):
+            try:
+                req = urllib.request.Request(url, headers={"User-Agent": "GridPulse/2.0"})
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    body = json.loads(resp.read().decode())
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 429 and attempt < MAX_RETRIES - 1:
+                    wait = RETRY_DELAY * (attempt + 1)
+                    print(f"rate limited, retrying in {wait}s...", end=" ", flush=True)
+                    time.sleep(wait)
+                else:
+                    print(f"ERROR: {e}")
+                    break
+            except Exception as e:
+                print(f"ERROR: {e}")
+                break
+
+        if body is None:
             break
 
         data = body.get("response", {}).get("data", [])
