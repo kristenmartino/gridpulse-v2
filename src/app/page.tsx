@@ -32,8 +32,8 @@ export default function Dashboard() {
     try {
       const [demandRes, forecastRes, metricsRes] = await Promise.allSettled([
         fetch(`/api/demand?region=${regionCode}&hours=168`),
-        fetch(`/api/forecast?region=${regionCode}`),
-        fetch(`/api/metrics?region=${regionCode}`),
+        fetch(`/data/${regionCode}_forecast.json`),
+        fetch(`/data/${regionCode}_metrics.json`),
       ]);
 
       if (demandRes.status === "fulfilled" && demandRes.value.ok) {
