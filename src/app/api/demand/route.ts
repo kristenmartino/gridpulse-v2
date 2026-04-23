@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
     const rows = eiaRows.map((r) => ({
       period: r.period.length === 13 ? r.period + ":00:00Z" : r.period,
       region,
-      demand_mw: r.value,
+      demand_mw: Number(r.value),
     }));
 
     const response: DemandAPIResponse = {
