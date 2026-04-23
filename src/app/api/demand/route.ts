@@ -26,22 +26,28 @@ export async function GET(request: NextRequest) {
   // Build date range
   const end = new Date();
   const start = new Date(end.getTime() - hours * 3600 * 1000);
+  const startStr = start.toISOString().slice(0, 13); // YYYY-MM-DDTHH
+  const endStr = end.toISOString().slice(0, 13);
 
-  const params = new URLSearchParams({
-    api_key: EIA_API_KEY,
-    "data[]": "value",
-    "facets[respondent][]": region,
-    "facets[type][]": "D", // Demand
-    frequency: "hourly",
-    start: start.toISOString().slice(0, 13), // YYYY-MM-DDTHH
-    end: end.toISOString().slice(0, 13),
-    sort: JSON.stringify([{ column: "period", direction: "asc" }]),
-    length: String(hours),
-  });
+  // Build URL with exact param format the EIA API expects
+  // (matching the working Python ingest script)
+  const params = [
+    `api_key=${EIA_API_KEY}`,
+    `frequency=hourly`,
+    `data[0]=value`,
+    `facets[respondent][]=${region}`,
+    `facets[type][]=D`,
+    `start=${startStr}`,
+    `end=${endStr}`,
+    `sort[0][column]=period`,
+    `sort[0][direction]=asc`,
+    `length=${hours}`,
+  ].join("&");
 
   try {
-    const res = await fetch(`${EIA_API_BASE}?${params.toString()}`, {
-      next: { revalidate: 3600 }, // cache for 1 hour
+    const res = await fetch(`${EIA_API_BASE}?${params}`, {
+      headers: { "User-Agent": "GridPulse/2.0" },
+      next: { revalidate: 3600 },
     });
 
     if (!res.ok) {
