@@ -35,7 +35,6 @@ REGIONS = {
     "CISO": "CAISO",
     "PJM":  "PJM",
     "MISO": "MISO",
-    "FPL":  "FPL",
 }
 
 MAX_RETRIES = 3

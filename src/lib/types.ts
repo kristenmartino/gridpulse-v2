@@ -17,7 +17,6 @@ export const REGIONS = {
   CISO: "CAISO (California)",
   PJM: "PJM (Mid-Atlantic)",
   MISO: "MISO (Midwest)",
-  FPL: "FPL (Florida)",
 } as const;
 
 export type RegionCode = keyof typeof REGIONS;

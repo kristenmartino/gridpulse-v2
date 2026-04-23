@@ -28,7 +28,7 @@ import numpy as np
 DB_PATH = Path(__file__).parent / "gridpulse.db"
 MODELS_DIR = Path(__file__).parent / "models"
 
-REGIONS = ["ERCO", "CISO", "PJM", "MISO", "FPL"]
+REGIONS = ["ERCO", "CISO", "PJM", "MISO"]
 
 # Holdout: last 7 days for test
 HOLDOUT_HOURS = 168
