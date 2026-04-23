@@ -1,56 +1,63 @@
 "use client";
 
-import type { DemandRow } from "@/lib/types";
+import type { DemandRow, ForecastPoint } from "@/lib/types";
 
 interface InsightCardProps {
   data: DemandRow[];
+  forecast: ForecastPoint[];
   regionName: string;
 }
 
-export default function InsightCard({ data, regionName }: InsightCardProps) {
+export default function InsightCard({ data, forecast, regionName }: InsightCardProps) {
   if (data.length < 48) return null;
 
   const values = data.map((d) => d.demand_mw);
   const current = values[values.length - 1];
-  const avg30 = values.reduce((a, b) => a + b, 0) / values.length;
-  const deviation = ((current - avg30) / avg30) * 100;
+  const avg = values.reduce((a, b) => a + b, 0) / values.length;
+  const deviation = ((current - avg) / avg) * 100;
+  const direction = deviation >= 0 ? "above" : "below";
 
-  // Find peak hour today
-  const today = data.slice(-24);
-  let peakIdx = 0;
+  // Find peak in last 24h
+  const recent = data.slice(-24);
   let peakVal = 0;
-  today.forEach((row, i) => {
+  let peakIdx = 0;
+  recent.forEach((row, i) => {
     if (row.demand_mw > peakVal) {
       peakVal = row.demand_mw;
       peakIdx = i;
     }
   });
-  const peakTime = new Date(today[peakIdx].period);
-  const peakHour = peakTime.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    timeZoneName: "short",
-  });
+  const peakTime = new Date(recent[peakIdx].period);
+  const peakHour = peakTime.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 
-  const direction = deviation >= 0 ? "above" : "below";
-  const absDeviation = Math.abs(deviation).toFixed(1);
+  // Forecast peak
+  let forecastSentence = "";
+  if (forecast.length > 0) {
+    const fPeak = forecast.reduce((a, b) => (b.forecast_mw > a.forecast_mw ? b : a));
+    const fPeakTime = new Date(fPeak.period);
+    const fPeakHour = fPeakTime.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+    forecastSentence = ` The model forecasts a peak of ${Math.round(fPeak.forecast_mw).toLocaleString()} MW around ${fPeakHour} tomorrow.`;
+  }
 
   return (
-    <div className="rounded-lg border border-blue-500/20 bg-blue-500/[0.04] px-5 py-4">
-      <p className="text-[11px] font-medium uppercase tracking-wider text-blue-400/80">
-        Insight
+    <div className="space-y-2">
+      <p className="text-[10px] font-medium uppercase tracking-widest text-[var(--text-muted)]">
+        Summary
       </p>
-      <p className="mt-2 text-sm leading-relaxed text-zinc-300">
-        Demand in <span className="font-medium text-zinc-100">{regionName}</span> is
-        tracking{" "}
-        <span className={deviation >= 0 ? "text-amber-400" : "text-emerald-400"}>
-          {absDeviation}% {direction}
+      <p className="text-[13px] leading-relaxed text-[var(--text-secondary)]">
+        Demand is{" "}
+        <span
+          className={`font-medium ${
+            deviation >= 0 ? "text-[var(--negative)]" : "text-[var(--positive)]"
+          }`}
+        >
+          {Math.abs(deviation).toFixed(1)}% {direction}
         </span>{" "}
-        the 7-day average. Peak in the last 24 hours was{" "}
-        <span className="font-medium text-zinc-100">
+        the 7-day average in {regionName}. The last 24-hour peak was{" "}
+        <span className="font-medium text-[var(--text-primary)]">
           {Math.round(peakVal).toLocaleString()} MW
         </span>{" "}
-        around {peakHour}.
+        at {peakHour}.{forecastSentence}
       </p>
     </div>
   );

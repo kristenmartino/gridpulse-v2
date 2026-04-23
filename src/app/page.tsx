@@ -30,14 +30,12 @@ export default function Dashboard() {
     setError(null);
 
     try {
-      // Fetch demand, forecast, and metrics in parallel
       const [demandRes, forecastRes, metricsRes] = await Promise.allSettled([
         fetch(`/api/demand?region=${regionCode}&hours=168`),
         fetch(`/api/forecast?region=${regionCode}`),
         fetch(`/api/metrics?region=${regionCode}`),
       ]);
 
-      // Demand (required)
       if (demandRes.status === "fulfilled" && demandRes.value.ok) {
         const json: DemandAPIResponse = await demandRes.value.json();
         setData(json.rows);
@@ -50,7 +48,6 @@ export default function Dashboard() {
         throw new Error(msg ?? "Failed to fetch demand data");
       }
 
-      // Forecast (optional — may not exist for all regions)
       if (forecastRes.status === "fulfilled" && forecastRes.value.ok) {
         const json: ForecastAPIResponse = await forecastRes.value.json();
         setForecast(json.forecasts);
@@ -58,7 +55,6 @@ export default function Dashboard() {
         setForecast([]);
       }
 
-      // Metrics (optional)
       if (metricsRes.status === "fulfilled" && metricsRes.value.ok) {
         const json: ModelMetrics = await metricsRes.value.json();
         setModelMetrics(json);
@@ -79,127 +75,132 @@ export default function Dashboard() {
     fetchData(region);
   }, [region, fetchData]);
 
-  const handleRegionChange = (newRegion: RegionCode) => {
-    setRegion(newRegion);
-  };
-
   return (
     <div className="flex flex-1 flex-col">
-      {/* Header */}
-      <header className="border-b border-white/[0.06] px-6 py-4">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-blue-500/20">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                className="text-blue-400"
-              >
-                <path
-                  d="M2 12L5 4L8 9L11 2L14 8"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <h1 className="text-lg font-semibold tracking-tight text-zinc-100">
+      {/* ─── Header ─── */}
+      <header className="border-b border-[var(--border)] px-6 lg:px-8">
+        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              className="text-[var(--accent)]"
+            >
+              <path
+                d="M2 14L5.5 5L9 10.5L12.5 2L16 9"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="text-sm font-semibold tracking-tight text-[var(--text-primary)]">
               GridPulse
-            </h1>
+            </span>
+            <span className="text-[10px] text-[var(--text-muted)]">/</span>
+            <span className="text-[10px] text-[var(--text-muted)]">
+              demand intelligence
+            </span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <RegionPicker value={region} onChange={handleRegionChange} />
-            {lastUpdated && (
-              <span className="text-xs text-zinc-600">
-                Updated {new Date(lastUpdated).toLocaleString()}
+          <div className="flex items-center gap-3">
+            <RegionPicker value={region} onChange={setRegion} />
+            {lastUpdated && !loading && (
+              <span className="hidden text-[10px] text-[var(--text-muted)] sm:inline">
+                {new Date(lastUpdated).toLocaleString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "2-digit",
+                })}
               </span>
             )}
           </div>
         </div>
       </header>
 
-      {/* Main content */}
-      <main className="flex-1 px-6 py-8">
-        <div className="mx-auto max-w-6xl space-y-6">
-          {/* Region title */}
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">
-              {REGIONS[region]}
-            </h2>
-            <p className="mt-1 text-sm text-zinc-500">
-              Hourly demand + 24h XGBoost forecast — EIA-930
-            </p>
-          </div>
-
-          {/* Error state */}
+      {/* ─── Main ─── */}
+      <main className="flex-1 px-6 py-10 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          {/* Error */}
           {error && (
-            <div className="rounded-lg border border-red-500/20 bg-red-500/[0.04] px-5 py-4">
-              <p className="text-sm text-red-400">{error}</p>
+            <div className="mb-8 rounded-md border border-red-500/20 bg-red-500/[0.04] px-4 py-3">
+              <p className="text-xs text-red-400">{error}</p>
             </div>
           )}
 
-          {/* Loading state */}
+          {/* Loading */}
           {loading && (
-            <div className="flex h-[400px] items-center justify-center">
-              <div className="flex flex-col items-center gap-3">
-                <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
-                <p className="text-sm text-zinc-500">Loading demand data...</p>
-              </div>
+            <div className="flex h-[420px] items-center justify-center">
+              <div className="h-5 w-5 animate-spin rounded-full border-[1.5px] border-[var(--accent)] border-t-transparent" />
             </div>
           )}
 
-          {/* Data loaded */}
+          {/* Content */}
           {!loading && !error && data.length > 0 && (
-            <>
-              {/* Metrics */}
+            <div className="space-y-8">
+              {/* Title block */}
+              <div className="space-y-1">
+                <h1 className="text-xl font-semibold tracking-tight text-[var(--text-primary)]">
+                  {REGIONS[region]}
+                </h1>
+                <p className="text-xs text-[var(--text-tertiary)]">
+                  7-day hourly demand with 24-hour XGBoost forecast
+                </p>
+              </div>
+
+              {/* Metrics row */}
               <MetricsBar data={data} regionName={REGIONS[region]} />
 
-              {/* Chart with forecast overlay */}
-              <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-4">
+              {/* Chart — the hero */}
+              <div className="rounded-lg border border-[var(--border)] bg-[var(--bg-raised)] p-5">
                 <DemandChart data={data} forecast={forecast} />
               </div>
 
-              {/* Model performance */}
+              {/* Model provenance bar */}
               <ModelMetricsCard metrics={modelMetrics} />
 
-              {/* Insight */}
-              <InsightCard data={data} regionName={REGIONS[region]} />
+              {/* Narrative insight */}
+              <InsightCard
+                data={data}
+                forecast={forecast}
+                regionName={REGIONS[region]}
+              />
 
-              {/* Data source attribution */}
-              <p className="text-xs text-zinc-600">
-                Source:{" "}
-                <a
-                  href="https://www.eia.gov/electricity/gridmonitor/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:text-zinc-400"
-                >
-                  U.S. Energy Information Administration, Hourly Electric Grid
-                  Monitor (EIA-930)
-                </a>
-                {" | "}
-                Model: XGBoost regressor trained on 90-day rolling window
-              </p>
-            </>
+              {/* Attribution */}
+              <footer className="border-t border-[var(--border)] pt-4">
+                <p className="text-[10px] leading-relaxed text-[var(--text-muted)]">
+                  Data from{" "}
+                  <a
+                    href="https://www.eia.gov/electricity/gridmonitor/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-[var(--text-muted)]/30 hover:text-[var(--text-tertiary)]"
+                  >
+                    EIA-930 Hourly Electric Grid Monitor
+                  </a>
+                  . Forecast by XGBoost regressor on a 90-day rolling training
+                  window. Confidence intervals widen with horizon to reflect
+                  compounding uncertainty.
+                </p>
+              </footer>
+            </div>
           )}
 
-          {/* Empty state */}
+          {/* Empty */}
           {!loading && !error && data.length === 0 && (
-            <div className="flex h-[400px] items-center justify-center">
-              <div className="text-center">
-                <p className="text-zinc-400">No data available for {REGIONS[region]}.</p>
-                <p className="mt-1 text-sm text-zinc-600">
-                  Run{" "}
-                  <code className="rounded bg-white/[0.06] px-1.5 py-0.5 font-mono text-xs">
-                    python data/ingest.py
-                  </code>{" "}
-                  to fetch data.
-                </p>
-              </div>
+            <div className="flex h-[420px] flex-col items-center justify-center gap-2">
+              <p className="text-sm text-[var(--text-tertiary)]">
+                No data for {REGIONS[region]}.
+              </p>
+              <p className="text-xs text-[var(--text-muted)]">
+                Run{" "}
+                <code className="rounded bg-[var(--bg-raised)] px-1.5 py-0.5 font-mono text-[10px]">
+                  python data/ingest.py
+                </code>
+              </p>
             </div>
           )}
         </div>
