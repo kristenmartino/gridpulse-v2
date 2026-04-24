@@ -431,6 +431,9 @@ def main():
 
         # Load data
         rows = load_demand(DB_PATH, region)
+        if not rows:
+            print(f"  SKIP: No data available for {region}")
+            continue
         print(f"  Loaded {len(rows)} rows ({rows[0]['period']} → {rows[-1]['period']})")
 
         if len(rows) < 168 + HOLDOUT_HOURS + 48:
