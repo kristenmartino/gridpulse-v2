@@ -24,6 +24,22 @@ export const REGIONS = {
 
 export type RegionCode = keyof typeof REGIONS;
 
+// Visual grouping for the region picker. Each region maps to one category;
+// CATEGORY_ORDER controls the rendering order of groups. Empty groups are
+// hidden, so it's safe to declare future categories ahead of their regions.
+export const CATEGORY_ORDER = ["Organized markets", "Southeast", "West"] as const;
+export type RegionCategory = (typeof CATEGORY_ORDER)[number];
+
+export const REGION_CATEGORIES: Record<RegionCode, RegionCategory> = {
+  ERCO: "Organized markets",
+  CISO: "Organized markets",
+  PJM:  "Organized markets",
+  MISO: "Organized markets",
+  SWPP: "Organized markets",
+  NYIS: "Organized markets",
+  ISNE: "Organized markets",
+};
+
 export interface ForecastPoint {
   period: string;
   forecast_mw: number;
