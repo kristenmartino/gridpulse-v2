@@ -16,6 +16,11 @@ const SHORT_NAMES: Record<RegionCode, string> = {
   SWPP: "Central Plains",
   NYIS: "New York",
   ISNE: "New England",
+  SOCO: "Southern Co.",
+  TVA: "Tennessee Valley",
+  DUK: "Duke Carolinas",
+  CPLE: "Duke Progress E.",
+  FPL: "Florida P&L",
 };
 
 interface RegionPickerProps {

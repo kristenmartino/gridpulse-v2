@@ -31,6 +31,7 @@ API_KEY = os.environ.get("EIA_API_KEY", "DEMO_KEY")
 
 # Balancing authorities we ingest
 REGIONS = {
+    # RTOs / ISOs
     "ERCO": "ERCOT",
     "CISO": "CAISO",
     "PJM":  "PJM",
@@ -38,6 +39,12 @@ REGIONS = {
     "SWPP": "SPP",
     "NYIS": "NYISO",
     "ISNE": "ISO-NE",
+    # Southeast (non-RTO)
+    "SOCO": "Southern Company",
+    "TVA":  "Tennessee Valley Authority",
+    "DUK":  "Duke Energy Carolinas",
+    "CPLE": "Duke Energy Progress East",
+    "FPL":  "Florida Power & Light",
 }
 
 RETRY_BACKOFF_SECS = [5, 15, 45]  # exponential-ish backoff for transient failures

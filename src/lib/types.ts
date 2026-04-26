@@ -13,6 +13,7 @@ export interface DemandAPIResponse {
 }
 
 export const REGIONS = {
+  // RTOs / ISOs
   ERCO: "ERCOT (Texas)",
   CISO: "CAISO (California)",
   PJM: "PJM (Mid-Atlantic)",
@@ -20,6 +21,12 @@ export const REGIONS = {
   SWPP: "SPP (Central Plains)",
   NYIS: "NYISO (New York)",
   ISNE: "ISO-NE (New England)",
+  // Southeast (non-RTO)
+  SOCO: "Southern Company (GA/AL/MS)",
+  TVA: "TVA (Tennessee Valley)",
+  DUK: "Duke Energy Carolinas",
+  CPLE: "Duke Energy Progress (East)",
+  FPL: "Florida Power & Light",
 } as const;
 
 export type RegionCode = keyof typeof REGIONS;
@@ -38,6 +45,11 @@ export const REGION_CATEGORIES: Record<RegionCode, RegionCategory> = {
   SWPP: "Organized markets",
   NYIS: "Organized markets",
   ISNE: "Organized markets",
+  SOCO: "Southeast",
+  TVA:  "Southeast",
+  DUK:  "Southeast",
+  CPLE: "Southeast",
+  FPL:  "Southeast",
 };
 
 export interface ForecastPoint {
