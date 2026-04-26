@@ -17,6 +17,9 @@ export const REGIONS = {
   CISO: "CAISO (California)",
   PJM: "PJM (Mid-Atlantic)",
   MISO: "MISO (Midwest)",
+  SWPP: "SPP (Central Plains)",
+  NYIS: "NYISO (New York)",
+  ISNE: "ISO-NE (New England)",
 } as const;
 
 export type RegionCode = keyof typeof REGIONS;

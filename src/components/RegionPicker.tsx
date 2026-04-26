@@ -7,6 +7,9 @@ const SHORT_NAMES: Record<RegionCode, string> = {
   CISO: "California",
   PJM: "Mid-Atlantic",
   MISO: "Midwest",
+  SWPP: "Central Plains",
+  NYIS: "New York",
+  ISNE: "New England",
 };
 
 interface RegionPickerProps {
