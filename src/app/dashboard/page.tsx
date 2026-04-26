@@ -72,6 +72,9 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
+    // TODO(#11): migrate to React 19 `use` API or SWR; see Next 16
+    // app/getting-started/fetching-data.md client-component guidance.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchData(region);
   }, [region, fetchData]);
 
