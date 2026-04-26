@@ -33,7 +33,7 @@ jobs:
           name: gridpulse-db
           path: data/
 
-      - name: Ingest demand data (per-region: backfill new, incremental existing)
+      - name: "Ingest demand data (per-region: backfill new, incremental existing)"
         env:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
         run: python data/ingest.py
