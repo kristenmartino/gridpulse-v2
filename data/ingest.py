@@ -170,7 +170,9 @@ def upsert_rows(conn: sqlite3.Connection, rows: list[dict]) -> int:
 
 def main():
     parser = argparse.ArgumentParser(description="Ingest EIA-930 hourly demand data")
-    parser.add_argument("--days", type=int, default=7, help="Number of days to fetch (default: 7)")
+    parser.add_argument("--days", type=int, default=7, help="Days to fetch for incremental ingest (default: 7)")
+    parser.add_argument("--backfill-days", type=int, default=90, help="Days to fetch for new/sparse regions (default: 90)")
+    parser.add_argument("--backfill-threshold", type=int, default=240, help="Row count below which a region triggers backfill (default: 240, matches train.py minimum)")
     parser.add_argument("--region", type=str, default=None, help="Single region code (default: all)")
     parser.add_argument("--db", type=str, default=None, help="Database path (default: data/gridpulse.db)")
     args = parser.parse_args()
@@ -179,20 +181,24 @@ def main():
     regions = {args.region: REGIONS.get(args.region, args.region)} if args.region else REGIONS
 
     now = datetime.now(timezone.utc)
-    start = (now - timedelta(days=args.days)).strftime("%Y-%m-%dT%H")
     end = now.strftime("%Y-%m-%dT%H")
 
     print(f"GridPulse Ingestion")
     print(f"  Database: {db_path}")
-    print(f"  Range:    {start} → {end}")
     print(f"  Regions:  {', '.join(regions.keys())}")
+    print(f"  Mode:     per-region (backfill {args.backfill_days}d if <{args.backfill_threshold} rows, else incremental {args.days}d)")
     print()
 
     conn = init_db(db_path)
     total_rows = 0
 
     for code, name in regions.items():
-        print(f"[{name}]")
+        existing = conn.execute("SELECT COUNT(*) FROM demand WHERE region=?", (code,)).fetchone()[0]
+        days = args.backfill_days if existing < args.backfill_threshold else args.days
+        start = (now - timedelta(days=days)).strftime("%Y-%m-%dT%H")
+
+        mode = "BACKFILL" if days == args.backfill_days and existing < args.backfill_threshold else "incremental"
+        print(f"[{name}] existing={existing} rows, fetching {days}d ({mode}) {start} → {end}")
         rows = fetch_demand(code, start, end)
         inserted = upsert_rows(conn, rows)
         total_rows += inserted

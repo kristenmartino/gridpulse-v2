@@ -26,11 +26,6 @@ jobs:
       - name: Install Python dependencies
         run: pip install xgboost scikit-learn numpy
 
-      - name: Ingest demand data (last 7 days)
-        env:
-          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
-        run: python data/ingest.py --days 7
-
       - name: Download existing database
         continue-on-error: true
         uses: actions/download-artifact@v4
@@ -38,25 +33,10 @@ jobs:
           name: gridpulse-db
           path: data/
 
-      - name: Ingest demand data (backfill 90 days if DB is new)
+      - name: Ingest demand data (per-region: backfill new, incremental existing)
         env:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
-        run: |
-          ROW_COUNT=$(python3 -c "
-          import sqlite3
-          conn = sqlite3.connect('data/gridpulse.db')
-          count = conn.execute('SELECT COUNT(*) FROM demand').fetchone()[0]
-          print(count)
-          conn.close()
-          ")
-          echo "Current row count: $ROW_COUNT"
-          if [ "$ROW_COUNT" -lt 1000 ]; then
-            echo "Database looks sparse, backfilling 90 days..."
-            python data/ingest.py --days 90
-          else
-            echo "Database has sufficient data, incremental ingest only."
-            python data/ingest.py --days 7
-          fi
+        run: python data/ingest.py
 
       - name: Train models
         run: python data/train.py --forecast 24
