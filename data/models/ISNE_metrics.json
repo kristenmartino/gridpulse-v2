@@ -1,0 +1,48 @@
+{
+  "region": "ISNE",
+  "trained_at": "2026-04-26T20:12:37.074484+00:00",
+  "train_samples": 1824,
+  "test_samples": 168,
+  "train_period": {
+    "start": "2026-02-02T20:00:00Z",
+    "end": "2026-04-19T19:00:00Z"
+  },
+  "test_period": {
+    "start": "2026-04-19T20:00:00Z",
+    "end": "2026-04-26T19:00:00Z"
+  },
+  "metrics": {
+    "mape_pct": 2.07,
+    "rmse_mw": 307.2,
+    "mae_mw": 221.2,
+    "r2": 0.9639
+  },
+  "feature_importances": {
+    "demand_lag_1": 0.7294,
+    "demand_lag_2": 0.1291,
+    "demand_lag_24": 0.0501,
+    "demand_diff_1": 0.0255,
+    "rolling_mean_24": 0.0113,
+    "demand_lag_168": 0.0111,
+    "demand_diff_24": 0.0097,
+    "hour": 0.0087,
+    "rolling_mean_6": 0.0081,
+    "rolling_mean_168": 0.0031,
+    "demand_lag_48": 0.0027,
+    "demand_lag_3": 0.0027,
+    "is_weekend": 0.0026,
+    "day_of_week": 0.0022,
+    "month": 0.0021,
+    "rolling_std_24": 0.0015
+  },
+  "best_iteration": 188,
+  "n_estimators_used": 189,
+  "hyperparameters": {
+    "n_estimators": 500,
+    "max_depth": 6,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "min_child_weight": 5
+  }
+}
