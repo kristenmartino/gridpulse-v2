@@ -40,8 +40,9 @@ REGIONS = {
     "ISNE": "ISO-NE",
 }
 
-MAX_RETRIES = 3
-RETRY_DELAY = 30  # seconds
+RETRY_BACKOFF_SECS = [5, 15, 45]  # exponential-ish backoff for transient failures
+RETRYABLE_STATUSES = {403, 429, 500, 502, 503, 504}
+INTER_REGION_DELAY = 1.0  # seconds between region requests, to be polite to EIA
 
 DB_PATH = Path(__file__).parent / "gridpulse.db"
 
@@ -102,16 +103,33 @@ def fetch_demand(region: str, start: str, end: str) -> list[dict]:
         print(f"  Fetching {region} offset={offset}...", end=" ", flush=True)
 
         body = None
-        for attempt in range(MAX_RETRIES):
+        max_attempts = len(RETRY_BACKOFF_SECS) + 1
+        for attempt in range(max_attempts):
             try:
                 req = urllib.request.Request(url, headers={"User-Agent": "GridPulse/2.0"})
                 with urllib.request.urlopen(req, timeout=30) as resp:
                     body = json.loads(resp.read().decode())
                 break
             except urllib.error.HTTPError as e:
-                if e.code == 429 and attempt < MAX_RETRIES - 1:
-                    wait = RETRY_DELAY * (attempt + 1)
-                    print(f"rate limited, retrying in {wait}s...", end=" ", flush=True)
+                is_last = attempt == max_attempts - 1
+                if e.code in RETRYABLE_STATUSES and not is_last:
+                    wait = RETRY_BACKOFF_SECS[attempt]
+                    retry_after = e.headers.get("Retry-After") if e.headers else None
+                    if retry_after:
+                        try:
+                            wait = max(wait, int(retry_after))
+                        except (TypeError, ValueError):
+                            pass
+                    print(f"HTTP {e.code}, retrying in {wait}s...", end=" ", flush=True)
+                    time.sleep(wait)
+                else:
+                    print(f"ERROR: HTTP {e.code} {e.reason}")
+                    break
+            except (urllib.error.URLError, TimeoutError) as e:
+                is_last = attempt == max_attempts - 1
+                if not is_last:
+                    wait = RETRY_BACKOFF_SECS[attempt]
+                    print(f"network error ({e}), retrying in {wait}s...", end=" ", flush=True)
                     time.sleep(wait)
                 else:
                     print(f"ERROR: {e}")
@@ -191,8 +209,11 @@ def main():
 
     conn = init_db(db_path)
     total_rows = 0
+    ok_regions = []
+    failed_regions = []
 
-    for code, name in regions.items():
+    region_items = list(regions.items())
+    for idx, (code, name) in enumerate(region_items):
         existing = conn.execute("SELECT COUNT(*) FROM demand WHERE region=?", (code,)).fetchone()[0]
         days = args.backfill_days if existing < args.backfill_threshold else args.days
         start = (now - timedelta(days=days)).strftime("%Y-%m-%dT%H")
@@ -200,9 +221,19 @@ def main():
         mode = "BACKFILL" if days == args.backfill_days and existing < args.backfill_threshold else "incremental"
         print(f"[{name}] existing={existing} rows, fetching {days}d ({mode}) {start} → {end}")
         rows = fetch_demand(code, start, end)
-        inserted = upsert_rows(conn, rows)
-        total_rows += inserted
-        print(f"  → {inserted} rows upserted\n")
+
+        if not rows:
+            print(f"  ⚠  No rows fetched for {code} (API error or no data)\n")
+            failed_regions.append(code)
+        else:
+            inserted = upsert_rows(conn, rows)
+            total_rows += inserted
+            ok_regions.append(code)
+            print(f"  → {inserted} rows upserted\n")
+
+        # Be polite to the EIA API between regions
+        if idx < len(region_items) - 1:
+            time.sleep(INTER_REGION_DELAY)
 
     # Print summary
     cursor = conn.execute("SELECT region, COUNT(*), MIN(period), MAX(period) FROM demand GROUP BY region")
@@ -211,7 +242,13 @@ def main():
         print(f"  {row[0]}: {row[1]} rows ({row[2]} → {row[3]})")
 
     conn.close()
-    print(f"\nDone. {total_rows} total rows ingested.")
+    print(f"\nDone. {total_rows} rows ingested. ok={len(ok_regions)} failed={len(failed_regions)}")
+    if failed_regions:
+        print(f"  Failed regions: {', '.join(failed_regions)}")
+
+    # Fail the pipeline only if every region failed (partial success is acceptable)
+    if failed_regions and not ok_regions:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
