@@ -1,42 +1,42 @@
 {
   "region": "CPLE",
-  "trained_at": "2026-07-26T06:51:20.966912+00:00",
-  "train_samples": 1825,
+  "trained_at": "2026-07-26T12:19:39.377068+00:00",
+  "train_samples": 1824,
   "test_samples": 168,
   "train_period": {
-    "start": "2026-05-04T06:00:00Z",
-    "end": "2026-07-19T06:00:00Z"
+    "start": "2026-05-04T12:00:00Z",
+    "end": "2026-07-19T11:00:00Z"
   },
   "test_period": {
-    "start": "2026-07-19T07:00:00Z",
-    "end": "2026-07-26T06:00:00Z"
+    "start": "2026-07-19T12:00:00Z",
+    "end": "2026-07-26T11:00:00Z"
   },
   "metrics": {
-    "mape_pct": 1.38,
-    "rmse_mw": 149.9,
-    "mae_mw": 111.6,
-    "r2": 0.9933
+    "mape_pct": 1.35,
+    "rmse_mw": 158.1,
+    "mae_mw": 110.8,
+    "r2": 0.9932
   },
   "feature_importances": {
-    "demand_lag_1": 0.4097,
+    "demand_lag_1": 0.4244,
     "demand_lag_24": 0.2857,
-    "demand_lag_2": 0.2417,
-    "demand_diff_1": 0.0311,
-    "demand_diff_24": 0.0191,
-    "hour": 0.006,
-    "rolling_mean_6": 0.0012,
-    "rolling_mean_24": 0.0012,
-    "rolling_std_24": 0.0009,
+    "demand_lag_2": 0.2265,
+    "demand_diff_1": 0.0302,
+    "demand_diff_24": 0.0167,
+    "hour": 0.0062,
+    "rolling_mean_24": 0.0052,
     "demand_lag_3": 0.0009,
-    "month": 0.0006,
+    "rolling_mean_6": 0.0009,
+    "demand_lag_168": 0.0008,
+    "is_weekend": 0.0005,
+    "rolling_std_24": 0.0005,
+    "month": 0.0005,
     "demand_lag_48": 0.0004,
-    "demand_lag_168": 0.0004,
-    "rolling_mean_168": 0.0003,
-    "is_weekend": 0.0003,
-    "day_of_week": 0.0003
+    "day_of_week": 0.0003,
+    "rolling_mean_168": 0.0003
   },
-  "best_iteration": 163,
-  "n_estimators_used": 164,
+  "best_iteration": 200,
+  "n_estimators_used": 201,
   "hyperparameters": {
     "n_estimators": 500,
     "max_depth": 6,
