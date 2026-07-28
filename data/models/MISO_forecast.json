@@ -1,152 +1,152 @@
 {
   "region": "MISO",
-  "generated_at": "2026-07-28T06:47:53.974410+00:00",
+  "generated_at": "2026-07-28T12:31:23.135292+00:00",
   "horizon_hours": 24,
-  "base_rmse_mw": 977.3,
+  "base_rmse_mw": 985.7,
   "forecasts": [
     {
-      "period": "2026-07-28T06:00:00Z",
-      "forecast_mw": 90780.5,
-      "ci_lower": 88864.9,
-      "ci_upper": 92696.0
-    },
-    {
-      "period": "2026-07-28T07:00:00Z",
-      "forecast_mw": 87127.1,
-      "ci_lower": 84924.3,
-      "ci_upper": 89330.0
-    },
-    {
-      "period": "2026-07-28T08:00:00Z",
-      "forecast_mw": 84771.4,
-      "ci_lower": 82281.2,
-      "ci_upper": 87261.6
-    },
-    {
-      "period": "2026-07-28T09:00:00Z",
-      "forecast_mw": 82960.3,
-      "ci_lower": 80182.8,
-      "ci_upper": 85737.8
-    },
-    {
-      "period": "2026-07-28T10:00:00Z",
-      "forecast_mw": 83512.8,
-      "ci_lower": 80448.0,
-      "ci_upper": 86577.6
-    },
-    {
-      "period": "2026-07-28T11:00:00Z",
-      "forecast_mw": 85378.4,
-      "ci_lower": 82026.2,
-      "ci_upper": 88730.5
-    },
-    {
       "period": "2026-07-28T12:00:00Z",
-      "forecast_mw": 88136.0,
-      "ci_lower": 84496.6,
-      "ci_upper": 91775.5
+      "forecast_mw": 87956.2,
+      "ci_lower": 86024.3,
+      "ci_upper": 89888.2
     },
     {
       "period": "2026-07-28T13:00:00Z",
-      "forecast_mw": 91121.8,
-      "ci_lower": 87195.0,
-      "ci_upper": 95048.6
+      "forecast_mw": 91764.8,
+      "ci_lower": 89543.1,
+      "ci_upper": 93986.6
     },
     {
       "period": "2026-07-28T14:00:00Z",
-      "forecast_mw": 95048.3,
-      "ci_lower": 90834.2,
-      "ci_upper": 99262.4
+      "forecast_mw": 96556.7,
+      "ci_lower": 94045.1,
+      "ci_upper": 99068.3
     },
     {
       "period": "2026-07-28T15:00:00Z",
-      "forecast_mw": 99478.6,
-      "ci_lower": 94977.2,
-      "ci_upper": 103980.1
+      "forecast_mw": 101610.9,
+      "ci_lower": 98809.5,
+      "ci_upper": 104412.3
     },
     {
       "period": "2026-07-28T16:00:00Z",
-      "forecast_mw": 102756.6,
-      "ci_lower": 97967.8,
-      "ci_upper": 107545.3
+      "forecast_mw": 106277.7,
+      "ci_lower": 103186.6,
+      "ci_upper": 109368.9
     },
     {
       "period": "2026-07-28T17:00:00Z",
-      "forecast_mw": 106054.4,
-      "ci_lower": 100978.3,
-      "ci_upper": 111130.5
+      "forecast_mw": 110689.8,
+      "ci_lower": 107308.9,
+      "ci_upper": 114070.8
     },
     {
       "period": "2026-07-28T18:00:00Z",
-      "forecast_mw": 108722.0,
-      "ci_lower": 103358.6,
-      "ci_upper": 114085.4
+      "forecast_mw": 113563.3,
+      "ci_lower": 109892.5,
+      "ci_upper": 117234.0
     },
     {
       "period": "2026-07-28T19:00:00Z",
-      "forecast_mw": 110148.1,
-      "ci_lower": 104497.4,
-      "ci_upper": 115798.9
+      "forecast_mw": 115610.0,
+      "ci_lower": 111649.5,
+      "ci_upper": 119570.6
     },
     {
       "period": "2026-07-28T20:00:00Z",
-      "forecast_mw": 111382.3,
-      "ci_lower": 105444.3,
-      "ci_upper": 117320.4
+      "forecast_mw": 116412.8,
+      "ci_lower": 112162.4,
+      "ci_upper": 120663.1
     },
     {
       "period": "2026-07-28T21:00:00Z",
-      "forecast_mw": 111280.8,
-      "ci_lower": 105055.4,
-      "ci_upper": 117506.2
+      "forecast_mw": 116748.6,
+      "ci_lower": 112208.5,
+      "ci_upper": 121288.7
     },
     {
       "period": "2026-07-28T22:00:00Z",
-      "forecast_mw": 109434.6,
-      "ci_lower": 102921.8,
-      "ci_upper": 115947.3
+      "forecast_mw": 116660.9,
+      "ci_lower": 111830.9,
+      "ci_upper": 121490.8
     },
     {
       "period": "2026-07-28T23:00:00Z",
-      "forecast_mw": 107502.1,
-      "ci_lower": 100702.0,
-      "ci_upper": 114302.1
+      "forecast_mw": 116414.3,
+      "ci_lower": 111294.6,
+      "ci_upper": 121534.0
     },
     {
       "period": "2026-07-29T00:00:00Z",
-      "forecast_mw": 106682.3,
-      "ci_lower": 99594.9,
-      "ci_upper": 113769.7
+      "forecast_mw": 115151.6,
+      "ci_lower": 109742.1,
+      "ci_upper": 120561.1
     },
     {
       "period": "2026-07-29T01:00:00Z",
-      "forecast_mw": 105026.2,
-      "ci_lower": 97651.5,
-      "ci_upper": 112400.9
+      "forecast_mw": 113233.4,
+      "ci_lower": 107534.1,
+      "ci_upper": 118932.7
     },
     {
       "period": "2026-07-29T02:00:00Z",
-      "forecast_mw": 102918.1,
-      "ci_lower": 95256.0,
-      "ci_upper": 110580.1
+      "forecast_mw": 110210.6,
+      "ci_lower": 104221.5,
+      "ci_upper": 116199.7
     },
     {
       "period": "2026-07-29T03:00:00Z",
-      "forecast_mw": 99461.2,
-      "ci_lower": 91511.8,
-      "ci_upper": 107410.5
+      "forecast_mw": 106730.0,
+      "ci_lower": 100451.1,
+      "ci_upper": 113008.9
     },
     {
       "period": "2026-07-29T04:00:00Z",
-      "forecast_mw": 94874.5,
-      "ci_lower": 86637.8,
-      "ci_upper": 103111.1
+      "forecast_mw": 101492.5,
+      "ci_lower": 94923.8,
+      "ci_upper": 108061.2
     },
     {
       "period": "2026-07-29T05:00:00Z",
-      "forecast_mw": 90574.7,
-      "ci_lower": 82050.6,
-      "ci_upper": 99098.7
+      "forecast_mw": 96079.0,
+      "ci_lower": 89220.5,
+      "ci_upper": 102937.5
+    },
+    {
+      "period": "2026-07-29T06:00:00Z",
+      "forecast_mw": 91293.8,
+      "ci_lower": 84145.5,
+      "ci_upper": 98442.1
+    },
+    {
+      "period": "2026-07-29T07:00:00Z",
+      "forecast_mw": 87124.1,
+      "ci_lower": 79686.0,
+      "ci_upper": 94562.2
+    },
+    {
+      "period": "2026-07-29T08:00:00Z",
+      "forecast_mw": 83730.2,
+      "ci_lower": 76002.4,
+      "ci_upper": 91458.1
+    },
+    {
+      "period": "2026-07-29T09:00:00Z",
+      "forecast_mw": 81449.3,
+      "ci_lower": 73431.6,
+      "ci_upper": 89467.0
+    },
+    {
+      "period": "2026-07-29T10:00:00Z",
+      "forecast_mw": 80952.6,
+      "ci_lower": 72645.2,
+      "ci_upper": 89260.1
+    },
+    {
+      "period": "2026-07-29T11:00:00Z",
+      "forecast_mw": 82137.8,
+      "ci_lower": 73540.5,
+      "ci_upper": 90735.1
     }
   ]
 }
